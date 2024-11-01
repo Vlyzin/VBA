@@ -1,0 +1,19 @@
+=SE(Q2099="Agendado";
+    SE(S2099>2;"AVALIAR";"NO PRAZO");
+    SE(OU(P2099="RECUSADA";P2099="CANCELADA");"INDEFINIDO";
+        SE(E(P2099="Trânsito";L2099<HOJE());"FORA DO PRAZO";
+            SE(E(Q2099="Data Limite";S2099>=1);"NO PRAZO";
+                SE(E(Q2099="Atraso na descarga vigente / anterior Bayer";S2099>=1);"NO PRAZO";
+                    SE(ÉCÉL.VAZIA(M2099);
+                        SE(HOJE()-L2099>0;"FORA DO PRAZO";"NO PRAZO");
+                        SE(E(P2099="Trânsito";L2099<HOJE());"FORA DO PRAZO";
+                            SE(E(P2099="EXPEDIÇÃO";HOJE()>M2099);"FORA DO PRAZO";
+                                SE(S2099<=0;"NO PRAZO";"FORA DO PRAZO")
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

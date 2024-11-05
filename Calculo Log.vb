@@ -11,7 +11,7 @@ Sub Macro_Botão6_Clique()
     Dim dataSLA As Date
     
     Set ws = ThisWorkbook.Sheets("Base")
-    lastRow = ws.Cells(ws.Rows.Count, "M").End(xlUp).Row
+    lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
 
     For i = 2 To lastRow
         
@@ -28,9 +28,7 @@ Sub Macro_Botão6_Clique()
         dataSLA = ws.Cells(i, "L").Value
         chamado = ws.Cells(i, "R").Value
         
-        ' Verifica se a coluna T não contém um asterisco
         If InStr(ws.Cells(i, "T").Value, "*") = 0 Then
-            ' Condições para "AVALIAR"
             If diasAtraso >= 30 And ws.Cells(i, "N").Value = "AVALIAR" Then
                 ws.Cells(i, "N").Value = "AVALIAR"
             ElseIf status = "ENTREGUE" And dataPrevisao > Date Then

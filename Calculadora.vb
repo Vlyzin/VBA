@@ -23,7 +23,6 @@ Sub PreencherSLA()
         cidadeDestino = ws1.Cells(i, 5).Value
         estadoDestino = ws1.Cells(i, 6).Value
         
-        ' Encontrar o prazo da transportadora na planilha "Itinerario"
         prazoTransportadora = 0
         Set rng = ws2.Range("A:A").Find(centro, LookIn:=xlValues, LookAt:=xlWhole)
         If Not rng Is Nothing Then

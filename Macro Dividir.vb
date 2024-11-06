@@ -118,7 +118,7 @@ Sub Dividir_Bases()
         ActiveWindow.FreezePanes = True
  
     Next ws
-    FilePath = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\"
+    FilePath = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\" 'Ajustar conforme local de usuario
     TodayDate = Format(Date, "dd.mm")
     FileName = "Tracking CP - " & TodayDate & ".xlsx"
     FullPath = FilePath & FileName

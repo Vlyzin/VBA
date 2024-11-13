@@ -65,6 +65,8 @@ Sub Macro_Botão6_Clique()
                 ws.Cells(i, "N").Value = "NO PRAZO"
             ElseIf comentario = "Cliente fechado" And diasAtraso > 1 And chamado <> "" Then
                 ws.Cells(i, "N").Value = "AVALIAR"
+            Elseif comentario = "Atraso na escolta" And diasAtraso <= 2 And chamado <> "" Then
+                ws.Cells(i, "N").Value = "NO PRAZO"
             Else
                 ws.Cells(i, "N").Value = "FORA DO PRAZO"
             End If

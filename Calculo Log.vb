@@ -28,7 +28,7 @@ Sub Macro_Botão6_Clique()
         dataSLA = ws.Cells(i, "L").Value
         chamado = ws.Cells(i, "R").Value
         
-        If InStr(ws.Cells(i, "T").Value, "*") = 0 Then
+        If InStr(ws.Cells(i, "U").Value, "*") = 0 Then
             If diasAtraso >= 30 And ws.Cells(i, "N").Value = "AVALIAR" Then
                 ws.Cells(i, "N").Value = "AVALIAR"
             ElseIf status = "ENTREGUE" And dataPrevisao > Date Then

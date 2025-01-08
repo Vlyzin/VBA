@@ -9,7 +9,7 @@ Sub Botão2_Clique()
     wsConsolidado.Name = "Consolidado"
     
     With ThisWorkbook.Worksheets("Macro")
-        .Range("A8:T8").Copy Destination:=wsConsolidado.Cells(1, 1)
+        .Range("A8:S8").Copy Destination:=wsConsolidado.Cells(1, 1)
     End With
     
     linhaDestino = 2
@@ -17,7 +17,7 @@ Sub Botão2_Clique()
     For Each ws In ThisWorkbook.Worksheets
         If ws.Name <> "Macro" And ws.Name <> "Consolidado" Then
             ultimaLinha = ws.Cells(ws.Rows.Count, 1).End(xlUp).Row
-            ws.Range("A2:T" & ultimaLinha).Copy Destination:=wsConsolidado.Cells(linhaDestino, 1)
+            ws.Range("A2:S" & ultimaLinha).Copy Destination:=wsConsolidado.Cells(linhaDestino, 1)
             linhaDestino = linhaDestino + ultimaLinha - 1
         End If
     Next ws

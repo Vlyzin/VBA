@@ -31,7 +31,7 @@ Sub Macro_suprema()
     On Error GoTo 0
     comandoLogCriada = False
     For i = 1 To transportadoresUnicos.Count
-        wsBase.Range("A1:T" & ultimaLinha).AutoFilter Field:=8, Criteria1:=transportadoresUnicos(i)
+        wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=8, Criteria1:=transportadoresUnicos(i)
         Set centrosUnicos = New Collection
         On Error Resume Next
         For Each centro In wsBase.Range("E2:E" & ultimaLinha).SpecialCells(xlCellTypeVisible)
@@ -42,7 +42,7 @@ Sub Macro_suprema()
             Set novaPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
             novaPlanilha.Name = "FRIBON"
             wsBase.Rows(1).Copy Destination:=novaPlanilha.Rows(1)
-            wsBase.Range("A2:T" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
+            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
         ElseIf transportadoresUnicos(i) = "COMANDO LOG" Then
             If Not comandoLogCriada Then
                 Set comandoLogPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
@@ -50,7 +50,7 @@ Sub Macro_suprema()
                 comandoLogCriada = True
                 wsBase.Rows(1).Copy Destination:=comandoLogPlanilha.Rows(1)
             End If
-            wsBase.Range("A2:T" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=comandoLogPlanilha.Rows(comandoLogPlanilha.Cells(comandoLogPlanilha.Rows.Count, "A").End(xlUp).Row + 1)
+            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=comandoLogPlanilha.Rows(comandoLogPlanilha.Cells(comandoLogPlanilha.Rows.Count, "A").End(xlUp).Row + 1)
         Else
             For j = 1 To centrosUnicos.Count
                 nomePlanilha = transportadoresUnicos(i) & " - " & Replace(centrosUnicos(j), "CP", "")
@@ -82,8 +82,8 @@ Sub Macro_suprema()
                 Set novaPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
                 novaPlanilha.Name = nomePlanilha
                 wsBase.Rows(1).Copy Destination:=novaPlanilha.Rows(1)
-                wsBase.Range("A1:T" & ultimaLinha).AutoFilter Field:=5, Criteria1:=centrosUnicos(j)
-                wsBase.Range("A2:T" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
+                wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=5, Criteria1:=centrosUnicos(j)
+                wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
                 wsBase.AutoFilterMode = False
             Next j
         End If
@@ -94,13 +94,13 @@ Sub Macro_suprema()
     On Error GoTo 0
     If Not wsBravoDCpaulinia Is Nothing And Not wsBravoUberaba Is Nothing Then
         ultimaLinha = wsBravoUberaba.Cells(wsBravoUberaba.Rows.Count, "A").End(xlUp).Row + 1
-        wsBravoDCpaulinia.Range("A2:T" & wsBravoDCpaulinia.Cells(wsBravoDCpaulinia.Rows.Count, "A").End(xlUp).Row).Copy Destination:=wsBravoUberaba.Range("A" & ultimaLinha)
+        wsBravoDCpaulinia.Range("A2:S" & wsBravoDCpaulinia.Cells(wsBravoDCpaulinia.Rows.Count, "A").End(xlUp).Row).Copy Destination:=wsBravoUberaba.Range("A" & ultimaLinha)
         Application.DisplayAlerts = False
         wsBravoDCpaulinia.Delete
         Application.DisplayAlerts = True
     End If
     For Each ws In ThisWorkbook.Worksheets
-        ws.Columns("A:T").AutoFit
+        ws.Columns("A:S").AutoFit
         ws.Activate
         ws.Range("A2").Select
         ActiveWindow.FreezePanes = True
@@ -138,5 +138,5 @@ Sub Macro_suprema()
     Next ws
     Application.DisplayAlerts = True
     
-    MsgBox "Show de bola!"
+    MsgBox "Processo Finalizado!"
 End Sub

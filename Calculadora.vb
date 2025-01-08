@@ -23,7 +23,6 @@ Sub Botão1_Clique()
         cidadeDestino = ws1.Cells(i, 5).Value
         estadoDestino = ws1.Cells(i, 6).Value
         
-        ' Encontrar o prazo da transportadora na planilha "Itinerario"
         prazoTransportadora = 0
         Set rng = ws2.Range("A:A").Find(centro, LookIn:=xlValues, LookAt:=xlWhole)
         If Not rng Is Nothing Then
@@ -49,14 +48,14 @@ Function AdicionarDiasUteis(dataInicial As Date, dias As Integer) As Date
     Dim feriados As Variant
     Dim feriado As Date
     
-    ' Definir os feriados (Natal e Ano Novo)
+    ' Definir os feriados
     feriados = Array(DateSerial(Year(dataInicial), 12, 25), DateSerial(Year(dataInicial), 1, 1))
     
     dataTemp = dataInicial
     
     Do While dias > 0
         dataTemp = dataTemp + 1
-        ' Verificar se a data é um dia útil (segunda a sexta) e não é um feriado
+        
         If Weekday(dataTemp, vbMonday) <= 5 And Not EhFeriado(dataTemp, feriados) Then
             dias = dias - 1
         End If

@@ -79,11 +79,18 @@ Sub Macro_suprema()
                     Case "BRAVO - DC Querencia "
                         nomePlanilha = "BRAVO - QUERÊNCIA"
                 End Select
+                
+                
+                wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=8, Criteria1:=transportadoresUnicos(i)
+                wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=5, Criteria1:=centrosUnicos(j)
+                
+                
                 Set novaPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
                 novaPlanilha.Name = nomePlanilha
                 wsBase.Rows(1).Copy Destination:=novaPlanilha.Rows(1)
-                wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=5, Criteria1:=centrosUnicos(j)
                 wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
+                
+                
                 wsBase.AutoFilterMode = False
             Next j
         End If

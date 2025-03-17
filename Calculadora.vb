@@ -73,7 +73,7 @@ Function AdicionarDiasUteis(dataInicial As Date, dias As Integer) As Date
     Dim feriados As Variant
     Dim feriado As Date
     
-    feriados = Array(DateSerial(Year(dataInicial), 12, 25), DateSerial(Year(dataInicial), 1, 1), DateSerial(Year(dataInicial), 3, 3), DateSerial(Year(dataInicial), 3, 4))
+    feriados = Array(DateSerial(Year(dataInicial), 12, 25), DateSerial(Year(dataInicial), 1, 1), DateSerial(Year(dataInicial), 3, 3), DateSerial(Year(dataInicial), 3, 4), DateSerial(Year(dataInicial), 4, 18), DateSerial(Year(dataInicial), 4, 21), DateSerial(Year(dataInicial), 5, 1), DateSerial(Year(dataInicial), 6, 19), DateSerial(Year(dataInicial), 9, 7), DateSerial(Year(dataInicial), 10, 12), DateSerial(Year(dataInicial), 11, 2), DateSerial(Year(dataInicial), 11, 15) )
     
     dataTemp = dataInicial
     

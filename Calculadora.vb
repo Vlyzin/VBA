@@ -56,16 +56,12 @@ Function AplicarRegraEspecial(dataEmissao As Date) As Date
     
     diaSemana = Weekday(dataEmissao, vbMonday) ' 1 = Segunda, 2 = Terça, ..., 5 = Sexta
     
-  
     If diaSemana >= 5 Or diaSemana <= 2 Then  ' Se a NF foi emitida entre sexta (5) e terça (2)
-
         quartaFeiraMesmaSemana = dataEmissao + (3 - diaSemana + 7) Mod 7
-        AplicarRegraEspecial = quartaFeiraMesmaSemana + 1
-
+        AplicarRegraEspecial = quartaFeiraMesmaSemana
     ElseIf diaSemana = 3 Or diaSemana = 4 Then ' Quarta (3) ou Quinta (4)
-
         sextaFeiraSeguinte = dataEmissao + (5 - diaSemana)
-        AplicarRegraEspecial = AdicionarDiasUteis(sextaFeiraSeguinte, 1)
+        AplicarRegraEspecial = sextaFeiraSeguinte
     Else
         AplicarRegraEspecial = dataEmissao
     End If

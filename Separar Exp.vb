@@ -7,7 +7,7 @@ Sub ExportarTransportadoresComCentro()
     Application.ScreenUpdating = False
     Application.DisplayAlerts = False
     
-    caminho = "C:\Users\vinicius.domingues\Documents\Projeto\Teste Maaluco\"
+    caminho = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer"
     dataAtual = Format(Date, "dd.mm")
     If Right(caminho, 1) <> "\" Then caminho = caminho & "\"
     
@@ -51,7 +51,7 @@ Sub ExportarTransportadoresComCentro()
             For i = LBound(listaValidacao) To UBound(listaValidacao)
                 wsValidacao.Cells(i + 1, 1).Value = listaValidacao(i)
             Next i
-            
+
             Set wsTransportador = novoArquivo.Worksheets.Add(After:=novoArquivo.Worksheets(1))
             wsTransportador.Name = Left(nomeTransportador & IIf(nomeCentro <> "", " " & nomeCentro, ""), 31)
             

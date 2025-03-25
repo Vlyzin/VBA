@@ -1,4 +1,4 @@
-Sub ExportarTransportadoresComCentro()
+Sub Button7_Click()
     Dim wsBase As Worksheet, wsTransportador As Worksheet, wsValidacao As Worksheet
     Dim novoArquivo As Workbook
     Dim caminho As String, nomeArquivo As String, dataAtual As String

@@ -21,11 +21,6 @@ Sub Botão2_Clique()
             linhaDestino = linhaDestino + ultimaLinha - 1
         End If
     Next ws
-
-    Set novaPasta = Workbooks.Add
-    wsConsolidado.Copy Before:=novaPasta.Sheets(1)
-    novaPasta.SaveAs "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\Teste.xlsx" 'Ajustar conforme local de usuario
-    novaPasta.Close SaveChanges:=False
     
     MsgBox "Consolidação e exportação concluídas!"
 End Sub

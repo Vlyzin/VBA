@@ -1,4 +1,5 @@
 Sub Macro_suprema()
+    Application.DisplayAlerts = False
     Dim wsBase As Worksheet
     Dim wsBotao As Worksheet
     Dim transportador As Range
@@ -19,6 +20,8 @@ Sub Macro_suprema()
     Dim FullPath As String
     Dim TodayDate As String
     Dim NewWorkbook As Workbook
+    Dim wsOutrosTransp As Worksheet
+    Dim outrosTranspCriada As Boolean
     
     Set wsBase = ThisWorkbook.Sheets("Base")
     Set wsBotao = ThisWorkbook.Sheets("Macro")
@@ -30,6 +33,8 @@ Sub Macro_suprema()
     Next transportador
     On Error GoTo 0
     comandoLogCriada = False
+    outrosTranspCriada = False
+    
     For i = 1 To transportadoresUnicos.Count
         wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=8, Criteria1:=transportadoresUnicos(i)
         Set centrosUnicos = New Collection
@@ -38,11 +43,16 @@ Sub Macro_suprema()
             centrosUnicos.Add Trim(centro.Value), CStr(Trim(centro.Value))
         Next centro
         On Error GoTo 0
-        If transportadoresUnicos(i) = "FRIBON" Then
-            Set novaPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
-            novaPlanilha.Name = "FRIBON"
-            wsBase.Rows(1).Copy Destination:=novaPlanilha.Rows(1)
-            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
+        
+        If transportadoresUnicos(i) <> "BRAVO" And transportadoresUnicos(i) <> "TONIATO" And transportadoresUnicos(i) <> "LUFT" And transportadoresUnicos(i) <> "COMANDO LOG" Then
+            If Not outrosTranspCriada Then
+                Set wsOutrosTransp = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
+                wsOutrosTransp.Name = "OUTROS TRANSP."
+                outrosTranspCriada = True
+                wsBase.Rows(1).Copy Destination:=wsOutrosTransp.Rows(1)
+            End If
+            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy _
+                Destination:=wsOutrosTransp.Rows(wsOutrosTransp.Cells(wsOutrosTransp.Rows.Count, "A").End(xlUp).Row + 1)
         ElseIf transportadoresUnicos(i) = "COMANDO LOG" Then
             If Not comandoLogCriada Then
                 Set comandoLogPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
@@ -50,7 +60,8 @@ Sub Macro_suprema()
                 comandoLogCriada = True
                 wsBase.Rows(1).Copy Destination:=comandoLogPlanilha.Rows(1)
             End If
-            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=comandoLogPlanilha.Rows(comandoLogPlanilha.Cells(comandoLogPlanilha.Rows.Count, "A").End(xlUp).Row + 1)
+            wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy _
+                Destination:=comandoLogPlanilha.Rows(comandoLogPlanilha.Cells(comandoLogPlanilha.Rows.Count, "A").End(xlUp).Row + 1)
         Else
             For j = 1 To centrosUnicos.Count
                 nomePlanilha = transportadoresUnicos(i) & " - " & Replace(centrosUnicos(j), "CP", "")
@@ -80,21 +91,19 @@ Sub Macro_suprema()
                         nomePlanilha = "BRAVO - QUERÊNCIA"
                 End Select
                 
-                
                 wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=8, Criteria1:=transportadoresUnicos(i)
                 wsBase.Range("A1:S" & ultimaLinha).AutoFilter Field:=5, Criteria1:=centrosUnicos(j)
-                
                 
                 Set novaPlanilha = ThisWorkbook.Sheets.Add(After:=ThisWorkbook.Sheets(ThisWorkbook.Sheets.Count))
                 novaPlanilha.Name = nomePlanilha
                 wsBase.Rows(1).Copy Destination:=novaPlanilha.Rows(1)
                 wsBase.Range("A2:S" & ultimaLinha).SpecialCells(xlCellTypeVisible).Copy Destination:=novaPlanilha.Rows(2)
                 
-                
                 wsBase.AutoFilterMode = False
             Next j
         End If
     Next i
+    
     On Error Resume Next
     Set wsBravoDCpaulinia = ThisWorkbook.Sheets("BRAVO - DC Paulinia ")
     Set wsBravoUberaba = ThisWorkbook.Sheets("BRAVO - UBERABA")
@@ -104,14 +113,15 @@ Sub Macro_suprema()
         wsBravoDCpaulinia.Range("A2:S" & wsBravoDCpaulinia.Cells(wsBravoDCpaulinia.Rows.Count, "A").End(xlUp).Row).Copy Destination:=wsBravoUberaba.Range("A" & ultimaLinha)
         Application.DisplayAlerts = False
         wsBravoDCpaulinia.Delete
-        Application.DisplayAlerts = True
     End If
+    
     For Each ws In ThisWorkbook.Worksheets
         ws.Columns("A:S").AutoFit
         ws.Activate
         ws.Range("A2").Select
         ActiveWindow.FreezePanes = True
     Next ws
+    
     ' Define o caminho e o nome do arquivo
     FilePath = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\"
     TodayDate = Format(Date, "dd.mm")
@@ -127,7 +137,6 @@ Sub Macro_suprema()
     
     Application.DisplayAlerts = False
     NewWorkbook.Sheets(1).Delete
-    Application.DisplayAlerts = True
     
     NewWorkbook.SaveAs FullPath, FileFormat:=xlOpenXMLWorkbook
     
@@ -143,7 +152,8 @@ Sub Macro_suprema()
             ws.Delete
         End If
     Next ws
-    Application.DisplayAlerts = True
     
     MsgBox "Processo Finalizado!"
+    
+    Application.DisplayAlerts = True
 End Sub

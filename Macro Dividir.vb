@@ -148,8 +148,9 @@ Sub Macro_suprema()
 
     For Each ws In ThisWorkbook.Worksheets
         nomePlanilha = ws.Name
-        If nomePlanilha <> "Base" And nomePlanilha <> "Macro" And nomePlanilha <> "Retorno" Then
-            ws.Delete
+        If nomePlanilha <> "Base" And nomePlanilha <> "Macro" And nomePlanilha <> "Retorno" And _
+       nomePlanilha <> "SAP" And nomePlanilha <> "Itinerario" Then 
+        ws.Delete
         End If
     Next ws
     

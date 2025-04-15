@@ -194,7 +194,7 @@ End If
         .VerticalAlignment = xlCenter 
     End With
     
-    MsgBox "Eitaaa"
+    MsgBox "Base criada com sucesso!", vbInformation
 End Sub
 
 Function AplicarRegraEspecial(dataEmissao As Date) As Date

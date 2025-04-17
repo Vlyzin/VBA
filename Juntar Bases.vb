@@ -1,5 +1,4 @@
 Sub Button11_Click()
-'Juntar bases
     Dim wbOrigem As Workbook
     Dim wbDestino As Workbook
     Dim wsOrigem As Worksheet
@@ -68,7 +67,7 @@ Sub Button11_Click()
                 ElseIf wsConsolidado.Range("A1").Value = "" Then
                     ultimaLinha = 0
                 End If
-
+                
                 rngCopiar.Copy wsConsolidado.Range("A" & ultimaLinha + 1)
             End If
         End If
@@ -86,21 +85,6 @@ Sub Button11_Click()
                       "IF(NETWORKDAYS(C2,TODAY())<=2,""Risco Baixo"",""""))))"
     End If
     
-    If ultimaLinha >= 1 Then
-        wsConsolidado.Range("U1").Value = "$"
-        If ultimaLinha >= 2 Then
-            wsConsolidado.Range("U2:U" & ultimaLinha).Value = "$"
-        End If
-    End If
-    
-    If ultimaLinha >= 2 Then
-        For Each cel In wsConsolidado.Range("P2:P" & ultimaLinha)
-            If UCase(cel.Value) = "ENTREGUE" Or UCase(cel.Value) = "CANCELADA" Or UCase(cel.Value) = "RECUSADA" Then
-                wsConsolidado.Cells(cel.Row, "T").Value = "*"
-            End If
-        Next cel
-    End If
-    
     On Error Resume Next
     Set wsBase = wbDestino.Worksheets("Base")
     On Error GoTo 0
@@ -114,9 +98,28 @@ Sub Button11_Click()
     
     If wsConsolidado.Cells(1, 1).Value <> "" Then
         ultimaLinha = wsConsolidado.Cells(wsConsolidado.Rows.Count, "A").End(xlUp).Row
-        wsConsolidado.Range("A1:U" & ultimaLinha).Copy
+        wsConsolidado.Range("A1:S" & ultimaLinha).Copy
         wsBase.Range("A1").PasteSpecial xlPasteAll
         Application.CutCopyMode = False
+    End If
+    
+    ultimaLinha = wsBase.Cells(wsBase.Rows.Count, "A").End(xlUp).Row
+    
+    If ultimaLinha >= 1 Then
+        wsBase.Range("U1").Value = "$"
+        If ultimaLinha >= 2 Then
+            wsBase.Range("U2:U" & ultimaLinha).Value = "$"
+        End If
+    End If
+    
+    If ultimaLinha >= 2 Then
+        For Each cel In wsBase.Range("P2:P" & ultimaLinha)
+            If UCase(Trim(cel.Value)) = "ENTREGUE" Or _
+               UCase(Trim(cel.Value)) = "CANCELADA" Or _
+               UCase(Trim(cel.Value)) = "RECUSADA" Then
+                wsBase.Cells(cel.Row, "T").Value = "*"
+            End If
+        Next cel
     End If
     
     MsgBox "Processo concluído com sucesso!", vbInformation

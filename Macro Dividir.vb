@@ -1,4 +1,5 @@
 Sub Macro_suprema()
+    'Separar por filial
     Application.DisplayAlerts = False
     Dim wsBase As Worksheet
     Dim wsBotao As Worksheet
@@ -22,6 +23,7 @@ Sub Macro_suprema()
     Dim NewWorkbook As Workbook
     Dim wsOutrosTransp As Worksheet
     Dim outrosTranspCriada As Boolean
+    Dim dialogo As FileDialog
     
     Set wsBase = ThisWorkbook.Sheets("Base")
     Set wsBotao = ThisWorkbook.Sheets("Macro")
@@ -122,15 +124,22 @@ Sub Macro_suprema()
         ActiveWindow.FreezePanes = True
     Next ws
     
-    ' Define o caminho e o nome do arquivo
-    FilePath = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\"
     TodayDate = Format(Date, "dd.mm")
     FileName = "Tracking CP - " & TodayDate & ".xlsx"
-    FullPath = FilePath & FileName
+    
+    Set dialogo = Application.FileDialog(msoFileDialogFolderPicker)
+    dialogo.Title = "Selecione a pasta para salvar o arquivo"
+    
+    If dialogo.Show = -1 Then
+        FullPath = dialogo.SelectedItems(1) & "\" & FileName
+    Else
+        MsgBox "Operação cancelada. O arquivo não foi salvo.", vbExclamation
+        Exit Sub
+    End If
     
     Set NewWorkbook = Workbooks.Add
     For Each ws In ThisWorkbook.Worksheets
-        If ws.Name <> "Macro" And ws.Name <> "Base" And ws.Name <> "Retorno" Then
+        If ws.Name <> "Macro" And ws.Name <> "Base" And ws.Name <> "Retorno" And ws.Name <> "SAP" And ws.Name <> "Itinerario" Then
             ws.Copy After:=NewWorkbook.Sheets(NewWorkbook.Sheets.Count)
         End If
     Next ws
@@ -139,7 +148,6 @@ Sub Macro_suprema()
     NewWorkbook.Sheets(1).Delete
     
     NewWorkbook.SaveAs FullPath, FileFormat:=xlOpenXMLWorkbook
-    
     NewWorkbook.Close False
     
     MsgBox "Arquivo salvo como: " & FullPath
@@ -149,7 +157,7 @@ Sub Macro_suprema()
     For Each ws In ThisWorkbook.Worksheets
         nomePlanilha = ws.Name
         If nomePlanilha <> "Base" And nomePlanilha <> "Macro" And nomePlanilha <> "Retorno" And _
-       nomePlanilha <> "SAP" And nomePlanilha <> "Itinerario" Then 
+       nomePlanilha <> "SAP" And nomePlanilha <> "Itinerario" Then
         ws.Delete
         End If
     Next ws

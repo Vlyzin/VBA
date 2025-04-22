@@ -1,4 +1,5 @@
 Sub Button9_Click()
+    'Criar Base
     Dim wsSAP As Worksheet, wsBase As Worksheet, wsItinerario As Worksheet
     Dim lastRowSAP As Long, lastRowBase As Long
     Dim rngToCopy As Range
@@ -43,7 +44,7 @@ Sub Button9_Click()
         
         .Columns("C").Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
         
-        lastRowSAP = .Cells(.Rows.count, "B").End(xlUp).Row
+        lastRowSAP = .Cells(.Rows.Count, "B").End(xlUp).Row
         .Range("B2:B" & lastRowSAP).TextToColumns _
             Destination:=.Range("B2"), _
             DataType:=xlDelimited, _
@@ -52,7 +53,7 @@ Sub Button9_Click()
         
         .Columns("C").Delete Shift:=xlToLeft
         
-        lastRowSAP = .Cells(.Rows.count, "E").End(xlUp).Row
+        lastRowSAP = .Cells(.Rows.Count, "E").End(xlUp).Row
         With .Range("E1:E" & lastRowSAP)
             .Replace "DC Uberaba CP Cerrados", "DC Uberaba CP", xlPart
             .Replace "DC Rio Verde Loja CP", "DC Rio Verde CP", xlPart
@@ -77,11 +78,11 @@ Sub Button9_Click()
             .Replace "TRANSPORTES LUFT LTDA", "LUFT", xlPart
         End With
         
-        Set rngToCopy = .Range("A2").CurrentRegion.Offset(1, 0).Resize(.Range("A2").CurrentRegion.Rows.count - 1)
+        Set rngToCopy = .Range("A2").CurrentRegion.Offset(1, 0).Resize(.Range("A2").CurrentRegion.Rows.Count - 1)
     End With
     
     With wsBase
-        lastRowBase = .Cells(.Rows.count, "A").End(xlUp).Row
+        lastRowBase = .Cells(.Rows.Count, "A").End(xlUp).Row
         
         If lastRowBase = 0 Then
             wsSAP.Range("A1").CurrentRegion.Rows(1).Copy Destination:=.Range("A1")
@@ -92,7 +93,7 @@ Sub Button9_Click()
         
         rngToCopy.Copy Destination:=.Cells(lastRowBase + 1, "A")
         
-        lastRowBase = .Cells(.Rows.count, "A").End(xlUp).Row
+        lastRowBase = .Cells(.Rows.Count, "A").End(xlUp).Row
         
         remessaCol = 0
         notaFiscalCol = 0
@@ -110,9 +111,8 @@ Sub Button9_Click()
             End If
         End If
         
-        lastRowBase = .Cells(.Rows.count, "A").End(xlUp).Row
+        lastRowBase = .Cells(.Rows.Count, "A").End(xlUp).Row
         
-
         If lastRowBase > 1 Then
             If .Range("O2").Formula <> "" Then
                 .Range("O2").AutoFill Destination:=.Range("O2:O" & lastRowBase)
@@ -129,10 +129,9 @@ Sub Button9_Click()
             Next cell
         End If
         
-
+' 2. CÁLCULO DE PRAZOS
 If lastRowBase > 1 Then
     For i = 2 To lastRowBase
-
         If .Cells(i, 21).Value = "$" Then
             GoTo ProximaLinha
         End If
@@ -141,11 +140,11 @@ If lastRowBase > 1 Then
         centro = .Cells(i, 4).Value
         transportador = .Cells(i, 8).Value
         cidadeDestino = .Cells(i, 10).Value
-        estadoDestino = .Cells(i, 11).Value
+        estadoDestino = .Cells(i, 11).Value 
         
         prazoTransportadora = 0
         
-        Set rng = wsItinerario.Range("A2:A" & wsItinerario.Cells(wsItinerario.Rows.count, "A").End(xlUp).Row)
+        Set rng = wsItinerario.Range("A2:A" & wsItinerario.Cells(wsItinerario.Rows.Count, "A").End(xlUp).Row)
         For Each cell In rng
             If cell.Value = centro And cell.Offset(0, 1).Value = transportador And _
                cell.Offset(0, 3).Value = cidadeDestino And cell.Offset(0, 4).Value = estadoDestino Then
@@ -161,7 +160,7 @@ If lastRowBase > 1 Then
         End If
         
         dataSLA = AdicionarDiasUteis(dataSLA, prazoTransportadora)
-        
+
         .Cells(i, 12).Value = dataSLA
         
 ProximaLinha:
@@ -172,14 +171,14 @@ End If
     Application.ScreenUpdating = True
     
     With wsSAP
-        lastRowSAP = .Cells(.Rows.count, "A").End(xlUp).Row
+        lastRowSAP = .Cells(.Rows.Count, "A").End(xlUp).Row
         If lastRowSAP > 1 Then
             .Range("A1:Z" & lastRowSAP).ClearContents
         End If
     End With
     
     With wsBase
-        lastRowBase = .Cells(.Rows.count, "A").End(xlUp).Row
+        lastRowBase = .Cells(.Rows.Count, "A").End(xlUp).Row
         If lastRowBase > 1 Then
             .Range("U2:U" & lastRowBase).Value = "$"
         End If
@@ -190,11 +189,11 @@ End If
     wsBase.UsedRange.Columns.AutoFit
         With wsBase.UsedRange
         .Columns.AutoFit
-        .HorizontalAlignment = xlCenter 
-        .VerticalAlignment = xlCenter 
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
     End With
     
-    MsgBox "Base criada com sucesso!", vbInformation
+    MsgBox "Feito!"
 End Sub
 
 Function AplicarRegraEspecial(dataEmissao As Date) As Date

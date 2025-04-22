@@ -5,6 +5,7 @@ Sub Button10_Click()
     Dim valorBravo As String
     Dim valorToniato As String
     Dim caminhoArquivo As String
+    Dim dialogo As FileDialog
     
     Set wsRetorno = ThisWorkbook.Sheets("Retorno")
     Set wsBase = ThisWorkbook.Sheets("Base")
@@ -23,12 +24,19 @@ Sub Button10_Click()
         Case valorToniato = "GT SOLUCOES LOGISTICAS SA" Or valorToniato = "TRANSPORTES TONIATO LTDA"
             Call Toniato
         Case Else
-
     End Select
     
     Call Macro_Botão6_Clique
     
-    caminhoArquivo = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\CP Report Fixo Consolidado.xlsx"
+    Set dialogo = Application.FileDialog(msoFileDialogFolderPicker)
+    dialogo.Title = "Selecione a pasta para salvar o arquivo"
+    
+    If dialogo.Show = -1 Then
+        caminhoArquivo = dialogo.SelectedItems(1) & "\CP Report Fixo Consolidado.xlsx"
+    Else
+        MsgBox "Operação cancelada. O arquivo não foi salvo.", vbExclamation
+        Exit Sub
+    End If
     
     On Error Resume Next
     Application.DisplayAlerts = False

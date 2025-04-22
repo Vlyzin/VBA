@@ -1,15 +1,25 @@
 Sub Button7_Click()
+    'Separar Expedição
     Dim wsBase As Worksheet, wsTransportador As Worksheet, wsValidacao As Worksheet
     Dim novoArquivo As Workbook
     Dim caminho As String, nomeArquivo As String, dataAtual As String
     Dim dictCombinacoes As Object
+    Dim dialogo As FileDialog
     
     Application.ScreenUpdating = False
     Application.DisplayAlerts = False
     
-    caminho = "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer"
+    Set dialogo = Application.FileDialog(msoFileDialogFolderPicker)
+    dialogo.Title = "Selecione a pasta para salvar os arquivos"
+    
+    If dialogo.Show = -1 Then
+        caminho = dialogo.SelectedItems(1) & "\"
+    Else
+        MsgBox "Operação cancelada. Nenhum arquivo foi salvo.", vbExclamation
+        Exit Sub
+    End If
+    
     dataAtual = Format(Date, "dd.mm")
-    If Right(caminho, 1) <> "\" Then caminho = caminho & "\"
     
     Set wsBase = ThisWorkbook.Worksheets("Base")
     If wsBase.AutoFilterMode Then wsBase.AutoFilterMode = False
@@ -51,7 +61,7 @@ Sub Button7_Click()
             For i = LBound(listaValidacao) To UBound(listaValidacao)
                 wsValidacao.Cells(i + 1, 1).Value = listaValidacao(i)
             Next i
-
+            
             Set wsTransportador = novoArquivo.Worksheets.Add(After:=novoArquivo.Worksheets(1))
             wsTransportador.Name = Left(nomeTransportador & IIf(nomeCentro <> "", " " & nomeCentro, ""), 31)
             
@@ -86,5 +96,5 @@ Sub Button7_Click()
     Application.DisplayAlerts = True
     Application.ScreenUpdating = True
     
-    MsgBox "Processo concluído! Foram exportados " & dictCombinacoes.Count & " arquivos.", vbInformation
+    MsgBox "Processo concluído! Foram exportados " & dictCombinacoes.Count & " arquivos em:" & vbNewLine & caminho, vbInformation
 End Sub

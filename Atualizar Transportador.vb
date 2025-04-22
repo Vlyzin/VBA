@@ -1,5 +1,5 @@
 Sub Macro_Boa()
-    'Atualizar
+    'Atualizar via Retorno
     Application.DisplayAlerts = False
     Dim wsBase As Worksheet
     Dim wsRetorno As Worksheet
@@ -17,8 +17,8 @@ Sub Macro_Boa()
     Set wsRetorno = ThisWorkbook.Sheets("Retorno")
     Set wsMacro = ThisWorkbook.Sheets("Macro")
     
-    ultimaLinhaBase = wsBase.Cells(wsBase.Rows.count, "A").End(xlUp).Row
-    ultimaLinhaRetorno = wsRetorno.Cells(wsRetorno.Rows.count, "A").End(xlUp).Row
+    ultimaLinhaBase = wsBase.Cells(wsBase.Rows.Count, "A").End(xlUp).Row
+    ultimaLinhaRetorno = wsRetorno.Cells(wsRetorno.Rows.Count, "A").End(xlUp).Row
     
     ultimaRemessa = wsRetorno.Cells(ultimaLinhaRetorno, 1).Value
     dataRetorno = wsRetorno.Cells(ultimaLinhaRetorno, 13).Value
@@ -32,10 +32,10 @@ Sub Macro_Boa()
                     dataBase = wsBase.Cells(j, 13).Value
                 End If
                 
-                wsBase.Cells(j, 13).Value = wsRetorno.Cells(i, 13).Value ' Coluna M
-                wsBase.Cells(j, 16).Value = wsRetorno.Cells(i, 16).Value ' Coluna P
-                wsBase.Cells(j, 17).Value = wsRetorno.Cells(i, 17).Value ' Coluna Q
-                wsBase.Cells(j, 18).Value = wsRetorno.Cells(i, 18).Value ' Coluna R
+                wsBase.Cells(j, 13).Value = wsRetorno.Cells(i, 13).Value
+                wsBase.Cells(j, 16).Value = wsRetorno.Cells(i, 16).Value
+                wsBase.Cells(j, 17).Value = wsRetorno.Cells(i, 17).Value
+                wsBase.Cells(j, 18).Value = wsRetorno.Cells(i, 18).Value
                 Exit For
             End If
         Next j
@@ -59,13 +59,26 @@ Sub Macro_Boa()
     End If
 
     Dim novoArquivo As Workbook
+    Dim caminhoSalvar As String
+    Dim dialogo As FileDialog
+    
+    Set dialogo = Application.FileDialog(msoFileDialogFolderPicker)
+    dialogo.Title = "Selecione a pasta para salvar o arquivo"
+    
+    If dialogo.Show = -1 Then
+        caminhoSalvar = dialogo.SelectedItems(1) & "\"
+    Else
+        MsgBox "Operação cancelada. O arquivo não foi salvo.", vbExclamation
+        Exit Sub
+    End If
+    
     Set novoArquivo = Workbooks.Add
     wsBase.Copy Before:=novoArquivo.Sheets(1)
-    novoArquivo.SaveAs "C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\CP Report Fixo Consolidado.xlsx" ' Ajustar conforme local de usuario
+    novoArquivo.SaveAs caminhoSalvar & "CP Report Fixo Consolidado.xlsx"
     novoArquivo.Close False
     
     If dataAtualizada Or ultimaLinhaRetorno <= 1 Then
-        MsgBox "Atualização concluída e arquivo salvo!", vbInformation
+        MsgBox "Atualização concluída e arquivo salvo em:" & vbCrLf & caminhoSalvar, vbInformation
     End If
     
     Application.DisplayAlerts = True

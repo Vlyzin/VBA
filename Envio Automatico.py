@@ -3,12 +3,10 @@ from datetime import datetime
 import win32com.client as win32
 
 # ========== CONFIG ==========
-remetente = "vinicius.domingues@brktecnologia.com.br"  # <== troque pro seu e-mail correto
+remetente = "vinicius.domingues@brktecnologia.com.br" 
 cc_padrao = [
-    "iara.araujo@bayer.com", 
-    "luiz.osato@bayer.com", 
+    "iara.araujo@bayer.com",  
     "luizpaulo.veiga@bayer.com", 
-    "felipe.barbosa1@bayer.com", 
     "julia.merli@bayer.com", 
     "marcos.moura@bayer.com", 
     "vitoria.maciel@bayer.com", 
@@ -17,7 +15,6 @@ cc_padrao = [
 ]
 pasta_base = r"C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\Exp e Transito"
 
-# Corpo padrão
 mensagem = """Bom dia, time, Tudo bem?
 
 Segue em anexo Tracking de CP com notas que estão em trânsito e fora do prazo e notas que ainda estão em expedição, podem justificar os atrasos, e informar uma previsão (caso haja) para as notas que ainda estão em expedição?
@@ -27,11 +24,9 @@ Fico no aguardo. Por gentileza, retornar até às 15:00 horas
 Atte.
 Vini G."""
 
-# Gera data no formato dia.mes
 hoje = datetime.now()
 data_str = f"{hoje.day}.{hoje.month}"
 
-# ========== NOMES DOS ARQUIVOS ==========
 arquivos_esperados = [
     "BRAVO.xlsx",
     "LUFT DC Carazinho CP.xlsx",
@@ -58,7 +53,6 @@ try:
     outlook = win32.Dispatch("Outlook.Application")
     namespace = outlook.GetNamespace("MAPI")
 
-    # Confere a conta de envio
     conta = None
     for a in namespace.Accounts:
         if a.SmtpAddress.lower() == remetente.lower():
@@ -71,12 +65,10 @@ try:
         for arquivo in arquivos_esperados:
             caminho_anexo = os.path.join(pasta_base, arquivo)
 
-            # Verifica se o arquivo existe na pasta
             if not os.path.isfile(caminho_anexo):
                 print(f"❌ Arquivo não encontrado: {arquivo}")
                 continue
 
-            # Identifica o grupo com base no nome do arquivo
             if "BRAVO" in arquivo:
                 grupo = "BRAVO"
             elif "LUFT DC Carazinho CP" in arquivo:
@@ -95,7 +87,6 @@ try:
                 print(f"❌ Grupo não encontrado para o arquivo: {arquivo}")
                 continue
 
-            # Destinatários específicos para o grupo
             destinatarios = destinatarios_por_grupo.get(grupo, [])
             if not destinatarios:
                 print(f"❌ Não há destinatários definidos para o grupo {grupo}.")
@@ -103,13 +94,13 @@ try:
 
             # Cria o e-mail
             mail = outlook.CreateItem(0)
-            mail._oleobj_.Invoke(*(64209, 0, 8, 0, conta))  # Usa a conta certa
+            mail._oleobj_.Invoke(*(64209, 0, 8, 0, conta))
             mail.To = ";".join(destinatarios)
-            mail.CC = ";".join(cc_padrao)  # Copia para os e-mails padrão
-            mail.Subject = f"Tracking - {arquivo.replace('.xlsx', '')} {data_str}"  # Título com a data
+            mail.CC = ";".join(cc_padrao)
+            mail.Subject = f"Tracking - {arquivo.replace('.xlsx', '')} {data_str}"
             mail.Body = mensagem
             mail.Attachments.Add(caminho_anexo)
-            mail.Send()  # Envia o e-mail diretamente
+            mail.Send()
             print(f"✅ E-mail enviado para o grupo {grupo}: {arquivo}")
 
 except Exception as e:

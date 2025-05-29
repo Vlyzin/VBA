@@ -10,8 +10,9 @@ cc_padrao = [
     "julia.merli@bayer.com", 
     "marcos.moura@bayer.com", 
     "vitoria.maciel@bayer.com", 
-    "marcus.ramos@brktecnologia.com.br", 
-    "marlon.felix@brktecnologia.com.br"
+    "marcus.ramos@brktecnologia.com.br",
+    "marlon.felix@brktecnologia.com.br",
+    "ethanmiguel.lopesgertrudes.ext@bayer.com"
 ]
 pasta_base = r"C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\Exp e Transito"
 

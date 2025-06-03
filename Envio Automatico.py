@@ -40,7 +40,7 @@ arquivos_esperados = [
 
 # ========== DESTINATÁRIOS POR GRUPO ==========
 destinatarios_por_grupo = {
-    "BRAVO": ["andreia.martins@bravolog.com.br", "barbara.goncalves@bravolog.com.br"],
+    "BRAVO": ["andreia.martins@bravolog.com.br", "barbara.goncalves@bravolog.com.br", "nivaldo.junior@bravolog.com.br", "elimar.oliveira@bravolog.com.br"],
     "LUFT CARAZINHO": ["taise.schmitt.ext@bayer.com", "roteirizacao.carazinho@luftagro.com.br", "thiago.fagundes@luftagro.com.br"],
     "LUFT PAULINIA": ["vanessa.manteiga@luftagro.com.br", "andrine.santos@luftagro.com.br", "fabio.silva@luftagro.com.br"],
     "TONIATO IBIPORA": ["milena.silva@grupotoniato.com.br", "viviane.garcia@grupotoniato.com.br"],

@@ -22,7 +22,7 @@ Segue em anexo Tracking de CP com notas que estão em trânsito e fora do prazo 
 
 Fico no aguardo. Por gentileza, retornar até às 15:00 horas
 
-Atte.
+Atenciosamente / Best regards;
 Vini G."""
 
 hoje = datetime.now()

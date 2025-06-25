@@ -18,12 +18,12 @@ pasta_base = r"C:\Users\vinicius.domingues\Documents\Projeto\Base Bayer\Exp e Tr
 
 mensagem = """Bom dia, time, Tudo bem?
 
-Segue em anexo Tracking de CP com notas que estão em trânsito e fora do prazo e notas que ainda estão em expedição, podem justificar os atrasos, e informar uma previsão (caso haja) para as notas que ainda estão em expedição?
+Segue em anexo Tracking de CP com notas que estão em trânsito/expedição e notas entregues em atraso. Podem justificar os atrasos, e informar uma previsão (caso haja) para as notas que ainda estão em expedição/trânsito?
 
 Fico no aguardo. Por gentileza, retornar até às 15:00 horas
 
 Atenciosamente / Best regards;
-Vini G."""
+SEU NOME"""
 
 hoje = datetime.now()
 data_str = f"{hoje.day}.{hoje.month}"
@@ -44,7 +44,7 @@ destinatarios_por_grupo = {
     "LUFT CARAZINHO": ["taise.schmitt.ext@bayer.com", "roteirizacao.carazinho@luftagro.com.br", "thiago.fagundes@luftagro.com.br"],
     "LUFT PAULINIA": ["vanessa.manteiga@luftagro.com.br", "andrine.santos@luftagro.com.br", "fabio.silva@luftagro.com.br"],
     "TONIATO IBIPORA": ["milena.silva@grupotoniato.com.br"],
-    "TONIATO PAULINIA": ["maria.samara@grupotoniato.com.br", "jovana.cerqueira@grupotoniato.com.br"],
+    "TONIATO PAULINIA": ["maria.samara@grupotoniato.com.br", "jovana.cerqueira@grupotoniato.com.br","luciana.damasceno@grupotoniato.com.br"],
     "TONIATO BELFORD ROXO": ["ronald.melo@grupotoniato.com.br", "elton.santos@grupotoniato.com.br"],
     "TONIATO RIO VERDE": ["jean.hossel@grupotoniato.com.br","luana.pereira@grupotoniato.com.br", "kelly.silva@grupotoniato.com.br", "samuel.pereira@grupotoniato.com.br","viviane.garcia@grupotoniato.com.br"]
 }
